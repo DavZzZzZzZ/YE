@@ -3,7 +3,6 @@
 <head>
   <meta charset="UTF-8">
   <title>Tonight's the night</title>
-  <!-- Fuente tipo Minecraft -->
   <link href="https://fonts.cdnfonts.com/css/minecraft-4" rel="stylesheet">
 
   <style>
@@ -13,7 +12,6 @@
       --flame-mid: #ffa53d;
       --flame-inner: #fff5e1;
       --coal-dark: #1a0f08;
-      --coal-lit: #3a1f13;
       --wood-dark: #422818;
       --wood-mid: #6b3e24;
       --ash-color: #89847e;
@@ -27,7 +25,6 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      overflow: hidden;
       font-family: 'Press Start 2P', monospace, sans-serif;
     }
 
@@ -70,6 +67,20 @@
       transform: translateY(0);
     }
 
+    .minecraft-letters {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Minecraft', 'Press Start 2P', monospace;
+      font-size: 4rem;
+      color: #79c05a;
+      text-shadow: 2px 2px 0 #000;
+      line-height: 1;
+      margin-top: 40px;
+      animation: text-pulse 3s infinite alternate ease-in-out;
+    }
+
     .vignette {
       position: fixed;
       top: 0;
@@ -80,6 +91,19 @@
       pointer-events: none;
       z-index: 10;
       opacity: 0.7;
+    }
+
+    .glow {
+      animation: glow-pulse 2s infinite alternate;
+      filter: blur(8px);
+    }
+
+    .ember {
+      animation: ember-glow 2.5s infinite alternate ease-in-out;
+    }
+
+    .ash {
+      animation: ash-fade 4s infinite alternate;
     }
 
     .flame-wrapper {
@@ -95,22 +119,9 @@
       animation: flame-dance-inner 1s infinite alternate ease-in-out;
     }
 
-    .ember {
-      animation: ember-glow 2.5s infinite alternate ease-in-out;
-    }
-
     .spark {
       animation: spark-float 3s infinite;
       opacity: 0;
-    }
-
-    .glow {
-      animation: glow-pulse 2s infinite alternate;
-      filter: blur(8px);
-    }
-
-    .ash {
-      animation: ash-fade 4s infinite alternate;
     }
 
     @keyframes flame-flicker {
@@ -135,6 +146,11 @@
       to { opacity: 1; filter: brightness(1.5); }
     }
 
+    @keyframes ash-fade {
+      from { opacity: 0.2; }
+      to { opacity: 0.5; }
+    }
+
     @keyframes spark-float {
       0% { opacity: 1; transform: translate(0, 0); }
       30% { opacity: 1; }
@@ -146,20 +162,10 @@
       to { opacity: 0.65; transform: scale(1.05); }
     }
 
-    @keyframes ash-fade {
-      from { opacity: 0.2; }
-      to { opacity: 0.5; }
-    }
-
     @keyframes text-pulse {
       from { opacity: 0.85; text-shadow: 0 2px 5px #000, 0 0 10px var(--ember-glow); }
       to { opacity: 1; text-shadow: 0 2px 5px #000, 0 0 20px var(--ember-glow); }
     }
-
-    .spark:nth-child(1) { --x: 15px; animation-duration: 3.5s; animation-delay: 0.2s; }
-    .spark:nth-child(2) { --x: -10px; animation-duration: 4s; animation-delay: 1s; }
-    .spark:nth-child(3) { --x: 5px; animation-duration: 3s; animation-delay: 1.5s; }
-    .spark:nth-child(4) { --x: -15px; animation-duration: 2.8s; animation-delay: 0.7s; }
 
     .scene-container {
       opacity: 0;
@@ -171,75 +177,45 @@
       opacity: 1;
       transform: scale(1);
     }
-
-    /* Texto vertical estilo Minecraft */
-    .minecraft-letters {
-      position: absolute;
-      top: 88%;
-      left: 50%;
-      transform: translateX(-50%);
-      text-align: center;
-      font-size: 1.2rem;
-      font-family: 'Minecraft', 'Press Start 2P', monospace;
-      color: #79c05a;
-      text-shadow: 1px 1px 0 #000;
-      line-height: 1.6rem;
-      pointer-events: none;
-    }
   </style>
 </head>
 <body>
   <div class="vignette"></div>
+
   <div class="scene-container">
     <svg class="bonfire" viewBox="0 0 100 100">
-      <!-- Resplandor del suelo -->
       <ellipse class="glow" cx="50" cy="80" rx="30" ry="8" fill="var(--ember-glow)" opacity="0.4"></ellipse>
-
-      <!-- Cenizas -->
       <ellipse class="ash" cx="50" cy="76" rx="20" ry="4" fill="var(--ash-color)" opacity="0.3"></ellipse>
-
-      <!-- Base de carbón y piedras -->
       <path d="M40 76 Q38 74 36 76 L33 76 Q30 76 28 74 L26 74 Q22 74 20 76 L48 76 L50 76 L52 76 L80 76 Q78 74 74 74 L72 74 Q70 76 67 76 L64 76 Q62 74 60 76" fill="var(--coal-dark)"></path>
-
-      <!-- Troncos principales -->
       <rect x="35" y="68" width="30" height="8" rx="3" fill="var(--wood-dark)"></rect>
       <path d="M38 68 L40 63 L42 68" fill="var(--wood-mid)"></path>
       <path d="M58 68 L56 62 L54 68" fill="var(--wood-mid)"></path>
-
-      <!-- Troncos cruzados -->
       <polygon points="43,72 48,65 50,67 52,65 57,72" fill="var(--wood-mid)"></polygon>
       <path d="M46 70 L46 68 L48 66 L52 66 L54 68 L54 70" fill="var(--wood-dark)"></path>
-
-      <!-- Brasas -->
       <rect class="ember" x="42" y="69" width="2" height="2" fill="var(--ember-glow)"></rect>
       <rect class="ember" x="52" y="70" width="2" height="2" fill="var(--ember-glow)" style="animation-delay: 0.7s"></rect>
       <rect class="ember" x="47" y="72" width="3" height="1" fill="var(--ember-glow)" style="animation-delay: 1.3s"></rect>
       <rect class="ember" x="38" y="72" width="2" height="1" fill="var(--ember-glow)" style="animation-delay: 0.9s"></rect>
       <rect class="ember" x="57" y="73" width="2" height="1" fill="var(--ember-glow)" style="animation-delay: 0.3s"></rect>
-
-      <!-- Llamas -->
       <g class="flame-wrapper">
         <path class="flame" d="M50 30 L40 60 L45 55 L38 70 L50 60 L62 70 L55 55 L60 60 Z" fill="var(--flame-outer)"></path>
         <path class="flame" d="M50 35 L43 58 L46 54 L42 65 L50 55 L58 65 L54 54 L57 58 Z" fill="var(--flame-mid)"></path>
         <path class="flame-inner" d="M50 40 L46 55 L48 52 L46 62 L50 50 L54 62 L52 52 L54 55 Z" fill="var(--flame-inner)"></path>
       </g>
-
-      <!-- Chispas -->
       <rect class="spark" x="49" y="35" width="2" height="2" fill="var(--flame-inner)"></rect>
       <rect class="spark" x="46" y="40" width="1" height="1" fill="var(--flame-inner)"></rect>
       <rect class="spark" x="53" y="38" width="1" height="1" fill="var(--flame-inner)"></rect>
       <rect class="spark" x="51" y="32" width="1" height="1" fill="var(--flame-mid)"></rect>
     </svg>
-
-    <!-- Letras estilo Minecraft debajo -->
-    <div class="minecraft-letters">
-      <span>D</span><br>
-      <span>A</span><br>
-      <span>V</span>
-    </div>
   </div>
 
   <div class="caption">Descansa en la hoguera</div>
+
+  <div class="minecraft-letters">
+    <span>D</span>
+    <span>A</span>
+    <span>V</span>
+  </div>
 
   <script>
     document.addEventListener('DOMContentLoaded', () => {
