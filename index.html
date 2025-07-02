@@ -2,62 +2,88 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Dav</title>
+  <title>Hoguera</title>
   <style>
     body {
+      background: #16161a;
       margin: 0;
-      height: 100vh;
-      background: #181818;
+      min-height: 100vh;
       display: flex;
-      justify-content: center;
       align-items: center;
-      color: #eee;
-      font-family: 'Segoe UI', Arial, sans-serif;
+      justify-content: center;
     }
     .bonfire-container {
       display: flex;
       flex-direction: column;
       align-items: center;
     }
-    .flame {
-      animation: flame 1.5s infinite alternate ease-in-out;
-      transform-origin: bottom center;
-    }
-    @keyframes flame {
-      0% { filter: brightness(1) blur(1.5px); transform: scaleY(1) rotate(-2deg);}
-      100% { filter: brightness(1.2) blur(2.5px); transform: scaleY(1.08) rotate(2deg);}
-    }
-    .ash {
-      animation: ash 2s infinite alternate ease-in-out;
-      opacity: 0.25;
-    }
-    @keyframes ash {
-      0% { transform: translateY(0) scale(1);}
-      100% { transform: translateY(-10px) scale(1.15);}
-    }
     .caption {
       margin-top: 30px;
-      font-size: 1.3rem;
-      text-shadow: 0 2px 8px #000;
+      font-size: 1.2rem;
       color: #ffb348;
+      letter-spacing: 2px;
       font-family: 'Cinzel', serif;
-      letter-spacing: 3px;
+      filter: drop-shadow(0 0 6px #000);
+    }
+    .chispas { animation: chispas 1.5s infinite linear; }
+    @keyframes chispas {
+      0% { opacity: 1; transform: translateY(0) scale(1);}
+      70% { opacity: 1;}
+      100% { opacity: 0; transform: translateY(-40px) scale(1.3);}
+    }
+    .humo { animation: humo 2.5s infinite ease-in-out; }
+    @keyframes humo {
+      0% { opacity: 0.18; transform: translateY(0) scale(1);}
+      100% { opacity: 0.01; transform: translateY(-50px) scale(1.5);}
+    }
+    .llama1 { animation: llama1 1.3s infinite alternate ease-in-out; }
+    @keyframes llama1 {
+      0% { filter: brightness(1) blur(1.5px); transform: scaleY(1);}
+      100% { filter: brightness(1.3) blur(2.5px); transform: scaleY(1.08) rotate(-2deg);}
+    }
+    .llama2 { animation: llama2 1.7s infinite alternate-reverse ease-in-out; }
+    @keyframes llama2 {
+      0% { filter: brightness(1) blur(1px); transform: scaleY(1);}
+      100% { filter: brightness(1.1) blur(2px); transform: scaleY(1.12) rotate(1deg);}
+    }
+    .llama3 { animation: llama3 1.2s infinite alternate ease-in-out; }
+    @keyframes llama3 {
+      0% { opacity: 0.8; }
+      100% { opacity: 1; }
+    }
+    .resplandor {
+      filter: blur(12px);
+      opacity: 0.5;
+      animation: glow 1.3s infinite alternate;
+    }
+    @keyframes glow {
+      0% { opacity: 0.4; }
+      100% { opacity: 0.8; }
     }
   </style>
 </head>
 <body>
   <div class="bonfire-container">
-    <!-- SVG hoguera -->
-    <svg width="180" height="240" viewBox="0 0 180 240">
-      <!-- Ash (humo tenue) -->
-      <ellipse class="ash" cx="90" cy="45" rx="30" ry="12" fill="#888" />
-      <!-- Flame -->
-      <path class="flame" d="M90 60 Q95 40 105 70 Q110 90 90 120 Q70 90 75 70 Q85 50 90 60" fill="orange"/>
-      <path class="flame" d="M90 80 Q92 60 100 85 Q104 100 90 110 Q78 100 82 85 Q88 70 90 80" fill="#ffd700" opacity="0.8"/>
+    <svg width="220" height="270" viewBox="0 0 220 270">
+      <!-- Resplandor -->
+      <ellipse class="resplandor" cx="110" cy="160" rx="45" ry="20" fill="orange"/>
+      <!-- Humo -->
+      <ellipse class="humo" cx="110" cy="58" rx="25" ry="10" fill="#aaa" />
+      <ellipse class="humo" cx="130" cy="48" rx="13" ry="6" fill="#bbb" opacity="0.3"/>
+      <!-- Chispas -->
+      <circle class="chispas" cx="100" cy="70" r="2" fill="#ffd700"/>
+      <circle class="chispas" cx="120" cy="80" r="1.3" fill="#fffbe0"/>
+      <circle class="chispas" cx="110" cy="90" r="1.7" fill="#ffb348"/>
+      <!-- Llamas principales -->
+      <path class="llama1" d="M110 110 Q120 70 135 110 Q140 145 110 170 Q80 145 85 110 Q100 85 110 110" fill="orange"/>
+      <path class="llama2" d="M110 125 Q115 100 125 120 Q127 135 110 155 Q95 137 97 120 Q107 105 110 125" fill="#ffd700" opacity="0.85"/>
+      <path class="llama3" d="M110 130 Q112 120 119 125 Q121 135 110 145 Q101 135 103 125 Q108 115 110 130" fill="#fffbe0" opacity="0.7"/>
       <!-- Troncos -->
-      <rect x="70" y="120" width="40" height="12" rx="5" fill="#5f3a1b" transform="rotate(-15 90 126)"/>
-      <rect x="74" y="130" width="40" height="10" rx="4" fill="#7b4b23" transform="rotate(15 94 135)"/>
+      <rect x="80" y="160" width="65" height="15" rx="5" fill="#5f3a1b" transform="rotate(-18 112 167)"/>
+      <rect x="88" y="172" width="60" height="13" rx="4" fill="#7b4b23" transform="rotate(14 118 178)"/>
+      <!-- Detalles de tronco (grietas) -->
+      <path d="M115 170 Q120 172 125 168" stroke="#cfa36e" stroke-width="1.2" fill="none"/>
+      <path d="M105 175 Q110 177 113 172" stroke="#a77c4f" stroke-width="1" fill="none"/>
     </svg>
     <div class="caption">Descansa en la hoguera</div>
   </div>
