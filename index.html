@@ -2,7 +2,10 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>Hoguera Dark Souls</title>
+  <title>Tonight's the night</title>
+  <!-- Fuente tipo Minecraft -->
+  <link href="https://fonts.cdnfonts.com/css/minecraft-4" rel="stylesheet">
+
   <style>
     :root {
       --ember-glow: #ff6a00;
@@ -15,7 +18,7 @@
       --wood-mid: #6b3e24;
       --ash-color: #89847e;
     }
-    
+
     body {
       background-color: #0b0a0e;
       margin: 0;
@@ -27,13 +30,13 @@
       overflow: hidden;
       font-family: 'Press Start 2P', monospace, sans-serif;
     }
-    
+
     .scene-container {
       position: relative;
       width: 400px;
       height: 400px;
     }
-    
+
     .bonfire {
       position: absolute;
       top: 50%;
@@ -45,12 +48,11 @@
       cursor: pointer;
       transition: filter 0.5s;
     }
-    
+
     .bonfire:hover {
       filter: brightness(1.2);
     }
-    
-    /* Texto Dark Souls */
+
     .caption {
       color: #ffc97e;
       margin-top: 20px;
@@ -62,13 +64,12 @@
       transform: translateY(10px);
       transition: opacity 1s, transform 1s;
     }
-    
+
     .scene-loaded .caption {
       opacity: 1;
       transform: translateY(0);
     }
-    
-    /* Vignette effect */
+
     .vignette {
       position: fixed;
       top: 0;
@@ -80,101 +81,111 @@
       z-index: 10;
       opacity: 0.7;
     }
-    
-    /* Animaciones principales */
+
     .flame-wrapper {
       transform-origin: center bottom;
       animation: flame-flicker 2s infinite alternate ease-in-out;
     }
-    
+
     .flame {
       animation: flame-dance 1.5s infinite ease-in-out;
     }
-    
+
     .flame-inner {
       animation: flame-dance-inner 1s infinite alternate ease-in-out;
     }
-    
+
     .ember {
       animation: ember-glow 2.5s infinite alternate ease-in-out;
     }
-    
+
     .spark {
       animation: spark-float 3s infinite;
       opacity: 0;
     }
-    
+
     .glow {
       animation: glow-pulse 2s infinite alternate;
       filter: blur(8px);
     }
-    
+
     .ash {
       animation: ash-fade 4s infinite alternate;
     }
-    
+
     @keyframes flame-flicker {
       0%, 100% { transform: scale(1.0) rotate(0deg); }
       25% { transform: scale(1.05, 1.1) rotate(-1deg); }
       50% { transform: scale(0.98, 1.02) rotate(1deg); }
       75% { transform: scale(1.02, 0.98) rotate(-1deg); }
     }
-    
+
     @keyframes flame-dance {
       0%, 100% { transform: translateX(0) scaleY(1); }
       50% { transform: translateX(-1px) scaleY(1.06); }
     }
-    
+
     @keyframes flame-dance-inner {
       0% { transform: scaleY(0.94) translateY(0); }
       100% { transform: scaleY(1.05) translateY(-2px); }
     }
-    
+
     @keyframes ember-glow {
       from { opacity: 0.7; filter: brightness(1); }
       to { opacity: 1; filter: brightness(1.5); }
     }
-    
+
     @keyframes spark-float {
       0% { opacity: 1; transform: translate(0, 0); }
       30% { opacity: 1; }
       100% { opacity: 0; transform: translate(var(--x, 10px), -80px); }
     }
-    
+
     @keyframes glow-pulse {
       from { opacity: 0.4; transform: scale(0.98); }
       to { opacity: 0.65; transform: scale(1.05); }
     }
-    
+
     @keyframes ash-fade {
       from { opacity: 0.2; }
       to { opacity: 0.5; }
     }
-    
+
     @keyframes text-pulse {
       from { opacity: 0.85; text-shadow: 0 2px 5px #000, 0 0 10px var(--ember-glow); }
       to { opacity: 1; text-shadow: 0 2px 5px #000, 0 0 20px var(--ember-glow); }
     }
 
-    /* Aseguramos que haya un delay diferente para cada elemento */
     .spark:nth-child(1) { --x: 15px; animation-duration: 3.5s; animation-delay: 0.2s; }
     .spark:nth-child(2) { --x: -10px; animation-duration: 4s; animation-delay: 1s; }
     .spark:nth-child(3) { --x: 5px; animation-duration: 3s; animation-delay: 1.5s; }
     .spark:nth-child(4) { --x: -15px; animation-duration: 2.8s; animation-delay: 0.7s; }
 
-    /* Animación de carga */
     .scene-container {
       opacity: 0;
       transform: scale(0.95);
       transition: opacity 1.2s ease-in-out, transform 1.2s ease-in-out;
     }
-    
+
     .scene-loaded .scene-container {
       opacity: 1;
       transform: scale(1);
     }
-    
-    @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
+    /* Texto vertical estilo Minecraft */
+    .minecraft-letters {
+      position: absolute;
+      top: 88%;
+      left: 50%;
+      transform: translateX(-50%);
+      text-align: center;
+      font-size: 1.2rem;
+      font-family: 'Minecraft', 'Press Start 2P', monospace;
+      color: #79c05a;
+      text-shadow: 1px 1px 0 #000;
+      line-height: 1.6rem;
+      pointer-events: none;
+    }
   </style>
 </head>
 <body>
@@ -183,64 +194,64 @@
     <svg class="bonfire" viewBox="0 0 100 100">
       <!-- Resplandor del suelo -->
       <ellipse class="glow" cx="50" cy="80" rx="30" ry="8" fill="var(--ember-glow)" opacity="0.4"></ellipse>
-      
+
       <!-- Cenizas -->
       <ellipse class="ash" cx="50" cy="76" rx="20" ry="4" fill="var(--ash-color)" opacity="0.3"></ellipse>
-      
+
       <!-- Base de carbón y piedras -->
       <path d="M40 76 Q38 74 36 76 L33 76 Q30 76 28 74 L26 74 Q22 74 20 76 L48 76 L50 76 L52 76 L80 76 Q78 74 74 74 L72 74 Q70 76 67 76 L64 76 Q62 74 60 76" fill="var(--coal-dark)"></path>
-      
+
       <!-- Troncos principales -->
       <rect x="35" y="68" width="30" height="8" rx="3" fill="var(--wood-dark)"></rect>
       <path d="M38 68 L40 63 L42 68" fill="var(--wood-mid)"></path>
       <path d="M58 68 L56 62 L54 68" fill="var(--wood-mid)"></path>
-      
+
       <!-- Troncos cruzados -->
       <polygon points="43,72 48,65 50,67 52,65 57,72" fill="var(--wood-mid)"></polygon>
       <path d="M46 70 L46 68 L48 66 L52 66 L54 68 L54 70" fill="var(--wood-dark)"></path>
-      
+
       <!-- Brasas -->
       <rect class="ember" x="42" y="69" width="2" height="2" fill="var(--ember-glow)"></rect>
       <rect class="ember" x="52" y="70" width="2" height="2" fill="var(--ember-glow)" style="animation-delay: 0.7s"></rect>
       <rect class="ember" x="47" y="72" width="3" height="1" fill="var(--ember-glow)" style="animation-delay: 1.3s"></rect>
       <rect class="ember" x="38" y="72" width="2" height="1" fill="var(--ember-glow)" style="animation-delay: 0.9s"></rect>
       <rect class="ember" x="57" y="73" width="2" height="1" fill="var(--ember-glow)" style="animation-delay: 0.3s"></rect>
-      
-      <!-- Grupo de llamas principal -->
+
+      <!-- Llamas -->
       <g class="flame-wrapper">
-        <!-- Llama exterior -->
         <path class="flame" d="M50 30 L40 60 L45 55 L38 70 L50 60 L62 70 L55 55 L60 60 Z" fill="var(--flame-outer)"></path>
-        
-        <!-- Llama media -->
         <path class="flame" d="M50 35 L43 58 L46 54 L42 65 L50 55 L58 65 L54 54 L57 58 Z" fill="var(--flame-mid)"></path>
-        
-        <!-- Llama interior -->
         <path class="flame-inner" d="M50 40 L46 55 L48 52 L46 62 L50 50 L54 62 L52 52 L54 55 Z" fill="var(--flame-inner)"></path>
       </g>
-      
+
       <!-- Chispas -->
       <rect class="spark" x="49" y="35" width="2" height="2" fill="var(--flame-inner)"></rect>
       <rect class="spark" x="46" y="40" width="1" height="1" fill="var(--flame-inner)"></rect>
       <rect class="spark" x="53" y="38" width="1" height="1" fill="var(--flame-inner)"></rect>
       <rect class="spark" x="51" y="32" width="1" height="1" fill="var(--flame-mid)"></rect>
     </svg>
+
+    <!-- Letras estilo Minecraft debajo -->
+    <div class="minecraft-letters">
+      <span>D</span><br>
+      <span>A</span><br>
+      <span>V</span>
+    </div>
   </div>
+
   <div class="caption">Descansa en la hoguera</div>
 
   <script>
     document.addEventListener('DOMContentLoaded', () => {
-      // Añadir la clase para iniciar animaciones después de un breve retraso
       setTimeout(() => {
         document.body.classList.add('scene-loaded');
       }, 200);
-      
-      // Interacción con la hoguera
+
       const bonfire = document.querySelector('.bonfire');
       bonfire.addEventListener('click', () => {
-        // Efecto de "avivar" el fuego al hacer clic
         document.documentElement.style.setProperty('--ember-glow', '#ff9100');
         document.documentElement.style.setProperty('--flame-outer', '#ffb700');
-        
+
         setTimeout(() => {
           document.documentElement.style.setProperty('--ember-glow', '#ff6a00');
           document.documentElement.style.setProperty('--flame-outer', '#ff8a00');
