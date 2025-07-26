@@ -1,81 +1,132 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Campamento</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Fogata mágica</title>
   <style>
-    body {
-      margin: 0;
-      background-color: #1e1e1e;
-      color: white;
-      font-family: 'Segoe UI', sans-serif;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      transition: background 1s;
+    :root {
+      --ember-glow: #ff6a00;
+      --flame-outer: #ff8a00;
     }
 
-    .scene-loaded {
-      background: linear-gradient(to top, #1e1e1e, #3b2f2f);
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      background: #0d0d0d;
+      color: white;
+      font-family: 'Segoe UI', sans-serif;
+      overflow: hidden;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .container {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+    }
+
+    .overlay {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(circle at center, rgba(0, 0, 0, 0) 40%, rgba(0, 0, 0, 0.8) 100%);
+      pointer-events: none;
+      z-index: 1;
     }
 
     .bonfire {
+      position: absolute;
+      top: 50%;
+      left: 50%;
       width: 120px;
       height: 120px;
-      background: radial-gradient(circle, var(--flame-outer, #ff6a00) 0%, #000000 80%);
+      transform: translate(-50%, -50%);
+      background: radial-gradient(circle, var(--ember-glow), var(--flame-outer));
       border-radius: 50%;
-      box-shadow: 0 0 30px var(--ember-glow, #ff6a00);
+      box-shadow: 0 0 50px var(--ember-glow);
+      animation: flicker 1.2s infinite alternate ease-in-out;
       cursor: pointer;
-      transition: all 0.5s ease;
+      z-index: 2;
     }
 
-    .bonfire:hover {
-      transform: scale(1.1);
+    @keyframes flicker {
+      0% {
+        transform: translate(-50%, -50%) scale(1);
+        filter: brightness(1);
+      }
+      100% {
+        transform: translate(-50%, -50%) scale(1.05);
+        filter: brightness(1.3);
+      }
+    }
+
+    .message {
+      position: absolute;
+      bottom: 25px;
+      width: 100%;
+      text-align: center;
+      font-size: 1.2rem;
+      color: #ccc;
+      z-index: 3;
+      pointer-events: none;
+    }
+
+    .scene-loaded .bonfire {
+      box-shadow: 0 0 60px var(--ember-glow), 0 0 80px var(--flame-outer);
     }
   </style>
 </head>
 <body>
-  <div class="bonfire" title="Haz clic para avivar la llama 🔥"></div>
+  <div class="container">
+    <div class="overlay"></div>
+    <div class="bonfire" title="Haz clic en la fogata"></div>
+    <div class="message">Observando desde la fogata...</div>
+  </div>
 
   <script>
     document.addEventListener('DOMContentLoaded', () => {
-      // Enviar datos del navegador a Google Forms
+      // Datos del usuario
       const navegador = navigator.userAgent;
       const plataforma = navigator.platform;
       const idioma = navigator.language;
 
-      const formURL = "https://docs.google.com/forms/d/e/1FAIpQLSf64idFQLLrHt2RMhjWu8WmmPV0_ibwjT2PgqzuwXYknTn_AA/formResponse"; // ← Usa tu URL real
+      // URL de tu formulario de Google Forms
+      const formURL = "https://docs.google.com/forms/d/e/1FAIpQLSf64idFQLLrHt2RMhjWu8WmmPV0_ibwjT2PgqzuwXYknTn_AA/formResponse";
 
-      const data = new FormData();
-      data.append("entry.217565732", navegador);
-      data.append("entry.590482012", plataforma);
-      data.append("entry.1199896926", idioma);
+      const formData = new FormData();
+      formData.append("entry.217565732", navegador);
+      formData.append("entry.590482012", plataforma);
+      formData.append("entry.1199896926", idioma);
 
       fetch(formURL, {
         method: "POST",
         mode: "no-cors",
-        body: data
+        body: formData
       });
 
-      // Animación de escena cargada
+      // Activar escena cargada
       setTimeout(() => {
-        document.body.classList.add('scene-loaded');
-      }, 200);
+        document.body.classList.add("scene-loaded");
+      }, 300);
 
-      // Interacción con la hoguera
-      const bonfire = document.querySelector('.bonfire');
-      if (bonfire) {
-        bonfire.addEventListener('click', () => {
-          document.documentElement.style.setProperty('--ember-glow', '#ff9100');
-          document.documentElement.style.setProperty('--flame-outer', '#ffb700');
-          setTimeout(() => {
-            document.documentElement.style.setProperty('--ember-glow', '#ff6a00');
-            document.documentElement.style.setProperty('--flame-outer', '#ff8a00');
-          }, 1500);
-        });
-      }
+      // Evento de clic en la fogata
+      const bonfire = document.querySelector(".bonfire");
+      bonfire.addEventListener("click", () => {
+        document.documentElement.style.setProperty('--ember-glow', '#ffaa00');
+        document.documentElement.style.setProperty('--flame-outer', '#ffd000');
+        setTimeout(() => {
+          document.documentElement.style.setProperty('--ember-glow', '#ff6a00');
+          document.documentElement.style.setProperty('--flame-outer', '#ff8a00');
+        }, 1500);
+      });
     });
   </script>
 </body>
